@@ -41,10 +41,8 @@ class DirScan(QThread):
         self.scan_types = scan_types
 
     def run(self):
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        loop.run_until_complete(self.async_run())
-    
+        asyncio.run(self.async_run())
+
     async def async_run(self):
         self.update_output.emit("Directory Scanning...\n")
 
@@ -107,9 +105,7 @@ class PortScan(QThread):
         self.end_port = end_port
 
     def run(self):
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        loop.run_until_complete(self.async_run())
+        asyncio.run(self.async_run())
 
     async def async_run(self):
         open_ports = []
