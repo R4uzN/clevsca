@@ -2,6 +2,12 @@
 
 **clevsca** is a powerful network scanning tool built with PyQt5. It provides three main functionalities: Web Scan, Directory Scan, and Port Scan. Each of these functionalities runs in separate asynchronous threads to ensure efficient and non-blocking operations.
 
+**Clone the repository**:
+```bash
+git clone https://github.com/clevflo/clevsca.git
+cd clevsca
+```
+
 ## Features
 
 - **Web Scan**: Fetches and displays the status code, headers, and cookies of a given URL.
@@ -23,10 +29,4 @@ You can install the required packages using `pip`:
 
 ```bash
 pip install PyQt5 aiohttp requests
-```
-
-**Clone the repository**:
-```bash
-git clone https://github.com/clevflo/clevsca.git
-cd clevsca
 ```
