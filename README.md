@@ -27,6 +27,6 @@ pip install PyQt5 aiohttp requests
 
 **Clone the repository**:
 ```bash
-git clone https://github.com/yourusername/clevsca.git
+git clone https://github.com/clevflo/clevsca.git
 cd clevsca
 ```
