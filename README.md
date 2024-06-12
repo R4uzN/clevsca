@@ -23,6 +23,10 @@ You can install the required packages using `pip`:
 
 ```bash
 pip install PyQt5 aiohttp requests
+```
 
+**Clone the repository**:
+```bash
 git clone https://github.com/yourusername/clevsca.git
 cd clevsca
+```
