@@ -19,7 +19,7 @@ class WebScan(QThread):
     def run(self):
         try:
             r = requests.get(self.url)
-            status = str(r.status_code)
+            status = str(r.status_code) 
             header = str(r.headers)
             cookie = str(r.cookies)
 
@@ -88,7 +88,7 @@ class DirScan(QThread):
                 if response.status == 200:
                     self.update_output.emit(f"Found: {url}\n")
                     return url
-                else:
+                else: 
                     self.update_output.emit(f"Trying: {url} - {response.status}\n")
         except aiohttp.ClientError as e:
             self.update_output.emit(f"An error occurred: {e}\n")
@@ -98,11 +98,13 @@ class DirScan(QThread):
 class PortScan(QThread):
     update_output = pyqtSignal(str)
 
-    def __init__(self, url, start_port, end_port):
+    def __init__(self, url, start_port, end_port, batch_size=1000, timeout=5):
         super().__init__()
         self.url = url
         self.start_port = start_port
         self.end_port = end_port
+        self.batch_size = batch_size
+        self.timeout = timeout
 
     def run(self):
         asyncio.run(self.async_run())
@@ -112,14 +114,13 @@ class PortScan(QThread):
         self.update_output.emit(f"Scanning {self.url} for open ports...\n")
         host = socket.gethostbyname(self.url.split('//')[1])
 
-        tasks = []
-        for port in range(self.start_port, self.end_port + 1):
-            tasks.append(self.scan_port(host, port))
-
-        results = await asyncio.gather(*tasks)
-        for result in results:
-            if result:
-                open_ports.append(result)
+        ports = list(range(self.start_port, self.end_port + 1))
+        for i in range(0, len(ports), self.batch_size):
+            batch_ports = ports[i:i + self.batch_size]
+            self.update_output.emit(f"Scanning ports {batch_ports[0]} to {batch_ports[-1]}...\n")
+            tasks = [self.scan_port(host, port) for port in batch_ports]
+            results = await asyncio.gather(*tasks)
+            open_ports.extend(filter(None, results))
 
         if not open_ports:
             self.update_output.emit("No open ports found.\n")
@@ -130,12 +131,14 @@ class PortScan(QThread):
 
     async def scan_port(self, host, port):
         try:
-            conn = asyncio.open_connection(host, port)
-            writer = await asyncio.wait_for(conn, timeout=1)
+            reader, writer = await asyncio.wait_for(asyncio.open_connection(host, port), timeout=self.timeout)
             writer.close()
             await writer.wait_closed()
             return port
-        except:
+        except asyncio.TimeoutError:
+            self.update_output.emit(f"Port {port}: Timeout\n")
+        except Exception as e:
+            self.update_output.emit(f"Port {port}: {e}\n")
             return None
 
 
