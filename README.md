@@ -4,7 +4,7 @@
 
 **Clone the repository**:
 ```bash
-git clone https://github.com/clevflo/clevsca.git
+git clone https://github.com/r4uzn/clevsca.git
 cd clevsca
 ```
 
