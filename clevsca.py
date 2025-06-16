@@ -276,10 +276,9 @@ class MainWindow(QWidget):
             info_dialog.resize(500, 300)
             
             info_browser = QTextBrowser()
-            cflink1 = "<a href='https://www.clevflo.com'>https://www.clevflo.com</a>"
-            cflink2 = "<a href='https://github.com/clevflo/'>https://github.com/clevflo/</a>"
-            email = "<a href='mailto:cl3vfl0@gmail.com'>cl3vfl0@gmail.com</a>"
-            info_browser.setHtml(f"Website : {cflink1}<br>Github : {cflink2}<br>Email : {email}")
+            cflink2 = "<a href='https://github.com/clevflo/'>https://github.com/r4uzn/</a>"
+            email = "<a href='mailto:726ksm@gmail.com'>726ksm@gmail.com</a>"
+            info_browser.setHtml(f"Github : {cflink2}<br>Email : {email}")
             info_browser.setOpenExternalLinks(True)
 
             layout.addWidget(info_browser)
